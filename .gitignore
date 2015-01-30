@@ -4,3 +4,5 @@ bin
 /target
 /.project
 /.classpath
+.idea
+allocation-tracker-agent.iml

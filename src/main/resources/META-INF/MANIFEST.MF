@@ -1,4 +1,6 @@
 Manifest-Version: 1.0
 Class-Path: 
 Premain-class: de.codecentric.performance.agent.allocation.AllocationProfilingAgent
+Agent-Class: de.codecentric.performance.agent.allocation.AllocationProfilingAgent
 Can-Redefine-Classes: true
+Can-Retransform-Classes: true
