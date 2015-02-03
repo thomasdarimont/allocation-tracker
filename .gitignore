@@ -4,5 +4,6 @@ bin
 /target
 /.project
 /.classpath
-.idea
+.idea/
 allocation-tracker-agent.iml
+dependency-reduced-pom.xml
