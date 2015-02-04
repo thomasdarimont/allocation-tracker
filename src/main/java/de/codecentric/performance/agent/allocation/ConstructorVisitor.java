@@ -8,6 +8,8 @@ import org.objectweb.asm.Opcodes;
  */
 public class ConstructorVisitor extends MethodVisitor {
 
+  private static final String TRACKER_CLASS_NAME =  TrackerSettings.TRACKER_CLASS.toString();
+
   /*
    * reference to the class name of the visited class.
    */
@@ -23,8 +25,8 @@ public class ConstructorVisitor extends MethodVisitor {
     // Pass in the className used by the visitor, which is always the single class name instance from the loaded class.
     // No garbage is produced here.
     super.visitLdcInsn(className);
-    super.visitMethodInsn(Opcodes.INVOKESTATIC, TrackerConfig.TRACKER_CLASS, TrackerConfig.TRACKER_CALLBACK,
-        TrackerConfig.TRACKER_CALLBACK_SIGNATURE, false);
+    super.visitMethodInsn(Opcodes.INVOKESTATIC, TRACKER_CLASS_NAME, TrackerSettings.TRACKER_CALLBACK,
+        TrackerSettings.TRACKER_CALLBACK_SIGNATURE, false);
     super.visitCode();
   }
 }

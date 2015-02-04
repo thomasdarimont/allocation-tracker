@@ -1,5 +1,6 @@
 package de.codecentric.performance.agent.allocation;
 
+import static de.codecentric.performance.agent.allocation.TrackerConfiguration.parseTrackerConfiguration;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertSame;
@@ -24,13 +25,13 @@ public class AllocationTrackerClassFileTransformerTest {
 
   @Before
   public void setUp() {
-    transformer = new AllocationTrackerClassFileTransformer("de.codecentric.test");
+    transformer = new AllocationTrackerClassFileTransformer(parseTrackerConfiguration("de.codecentric.test"));
   }
 
   @Test
   public void allocationTrackerClassesAreIgnored() throws Exception {
     byte[] classBytes = getClassBytes(ConstructorVisitor.class);
-    byte[] actual = transformer.transform(null, ConstructorVisitor.class.getName(), ConstructorVisitor.class, null,
+    byte[] actual = transformer.transform(null, ConstructorVisitor.class.getName().replace(".","/"), ConstructorVisitor.class, null,
         classBytes);
 
     assertSame(classBytes, actual);
@@ -39,7 +40,7 @@ public class AllocationTrackerClassFileTransformerTest {
   @Test
   public void notMatchingClassPrefixesAreIgnored() throws Exception {
     byte[] classBytes = getClassBytes(Assert.class);
-    byte[] actual = transformer.transform(null, Assert.class.getName(), Assert.class, null, classBytes);
+    byte[] actual = transformer.transform(null, Assert.class.getName().replace(".","/"), Assert.class, null, classBytes);
 
     assertSame(classBytes, actual);
   }
@@ -47,7 +48,7 @@ public class AllocationTrackerClassFileTransformerTest {
   @Test
   public void matchingClassesAreExtended() throws Exception {
     byte[] byteArray = getClassBytes(TestBean.class);
-    byte[] actual = transformer.transform(null, TestBean.class.getName(), TestBean.class, null, byteArray);
+    byte[] actual = transformer.transform(null, TestBean.class.getName().replace(".","/"), TestBean.class, null, byteArray);
 
     // the class has been changed. What else can we do?
     assertThat(actual.length, is(greaterThan(byteArray.length)));

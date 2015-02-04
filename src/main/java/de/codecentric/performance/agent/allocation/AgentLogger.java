@@ -16,7 +16,7 @@ public class AgentLogger {
    * @param logMessage
    *          message as String
    */
-  public static void log(String logMessage) {
+  public static void logInfo(String logMessage) {
     System.out.print("codecentric allocation agent - ");
     System.out.println(logMessage);
     System.err.print("codecentric allocation agent - ");

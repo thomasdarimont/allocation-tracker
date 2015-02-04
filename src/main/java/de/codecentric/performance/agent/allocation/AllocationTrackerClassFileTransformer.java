@@ -16,24 +16,21 @@ import org.objectweb.asm.Opcodes;
  */
 public class AllocationTrackerClassFileTransformer implements ClassFileTransformer {
 
-  private String prefix;
+    private final TrackerConfiguration config;
 
-  public AllocationTrackerClassFileTransformer(String prefix) {
-    this.prefix = prefix;
-    if (prefix.startsWith("java")) {
-      AgentLogger.log("You are trying to instrument JVM core classes - this might crash the JVM");
-    }
+  public AllocationTrackerClassFileTransformer(TrackerConfiguration config) {
+      this.config = config;
   }
 
   @Override
   public byte[] transform(ClassLoader loader, final String className, Class<?> classBeingRedefined,
       ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-    if (className.startsWith(TrackerConfig.AGENT_PACKAGE_PREFIX)) {
+    if (className.startsWith(TrackerSettings.AGENT_PACKAGE_PREFIX)) {
       // Safeguard: do not instrument our own classes
       return classfileBuffer;
     }
 
-    if (!className.startsWith(prefix)) {
+    if (!className.startsWith(config.getPrefixSlashed())) {
       return classfileBuffer;
     }
 
